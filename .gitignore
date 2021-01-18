@@ -113,3 +113,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# output files
+output.xml
+report.html
+log.html
+
+# IDE
+RobotRosGazeboLibrary/.idea/

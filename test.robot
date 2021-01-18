@@ -1,7 +1,7 @@
 *** Settings ***
-Documentation     An example test suite
+Documentation     A test test suite
 ...
-...               This test suite is an example
+...               This test suite is for testing
 Library           RobotRosGazeboLibrary.Keywords
 
 *** Test Cases ***
@@ -9,11 +9,14 @@ Test Handover
 	[Setup]    Connect on port 9090
 	Unpause
 	Sleep      1
-    Verify link robot1::base_link at 0 0 0
-	Verify model object at 0.3 0 0
+    Get model-state of object
 	Get model-info of object
+	Get link-state of robot1::base_link
+	Get link-properties of robot1::base_link
+	Get physics-properties
+
 	Publish "go" on /user_input
-	#Wait for 45
-	Sleep		45
-	Verify model object at 0.3 0.63 0
+	#Wait for 1
+	Sleep		1
+
     [Teardown]    Disconnect from ROS
