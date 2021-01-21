@@ -1,8 +1,5 @@
-import os.path
 import subprocess
-import sys
 import time
-
 
 import roslibpy
 from robot.api.deco import keyword, not_keyword
@@ -25,7 +22,6 @@ class Keywords:
     def launch(self, package, executable):
         """Launch a launch file from a specified ROS package using `roslaunch`"""
 
-        # proc = subprocess.Popen(['roslaunch', package, executable, 'port:=' + str(self.port)])
         proc = subprocess.Popen(['roslaunch', package, executable])
         self.proc_list.append(proc)
         time.sleep(15)  # adjust as needed
@@ -87,33 +83,7 @@ class Keywords:
 
     @keyword("Wait for ${dur_in_s}")
     def wait_for(self, dur_in_s):
-        # time.sleep(float(dur_in_s))
-
-        curr_time = -1
         wait = True
-
-        '''using /clock parameter from gazebo'''
-        """
-        def time_check(data):
-            raise AssertionError("time_check")
-            if (curr_time == -1):
-                curr_time = data['secs']
-            elif abs(data['secs'] - curr_time) >= float(dur_in_s) :
-                wait = False;
-                
-        listener = roslibpy.Topic(self.client, '/clock', 'rosgraph_msgs/Clock')
-        listener.subscribe(time_check)
-        
-        try:
-            while wait:		#endless loop
-                pass
-        except:
-            pass
-        
-        listener.unsubscribe()
-        """
-
-        '''using /get_world_properties service'''
 
         result = self.gazebo.get_world_properties()
         curr_time = result['sim_time']
@@ -172,13 +142,18 @@ class Keywords:
         print(model_state)
         print(model_property)
 
+    @keyword("Get ${trait} of model ${model_name}")
+    def get_property_of_model(self, trait, model_name):
+        model_state = self.gazebo.get_model_state(model_name)
+        print('\'' + trait + '\':', model_state[trait])
+
     @keyword("Get link-state of ${link_name}")
     def get_link_state(self, link_name):
-        link_state = self.gazebo.get_link_state(link_name)['link_state']
+        link_state = self.gazebo.get_link_state(link_name)
         print(link_state)
 
     @keyword("Get link-properties of ${link_name}")
-    def get_model_properties(self, link_name):
+    def get_link_properties(self, link_name):
         link_property = self.gazebo.get_link_properties(link_name)
         print(link_property)
 
@@ -208,5 +183,3 @@ class Keywords:
     def test_light_properties(self, light_name):
         light_property = self.gazebo.get_joint_properties(light_name)
         print(light_property)
-
-
