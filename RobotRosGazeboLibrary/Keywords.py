@@ -1,10 +1,21 @@
 import subprocess
 import time
+from operator import getitem as getitem_func
+from functools import reduce
 
 import roslibpy
 from robot.api.deco import keyword, not_keyword
 
 from .gazebo import GazeboClient
+
+
+def trait_split_check(trait: str, dictionary: dict) -> str:
+    trait_path = trait.split(':')
+    try:
+        output = reduce(getitem_func, trait_path, dictionary)
+    except KeyError:
+        output = 'not found'
+    return output
 
 
 class Keywords:
@@ -145,7 +156,10 @@ class Keywords:
     @keyword("Get ${trait} of model ${model_name}")
     def get_property_of_model(self, trait, model_name):
         model_state = self.gazebo.get_model_state(model_name)
-        print('\'' + trait + '\':', model_state[trait])
+        model_property = self.gazebo.get_model_properties(model_name)
+        model_info = {**model_state, **model_property}  # dictionary join
+        output = trait_split_check(trait, model_info)
+        print('\'' + trait + '\':', output)
 
     @keyword("Get link-state of ${link_name}")
     def get_link_state(self, link_name):
@@ -164,22 +178,54 @@ class Keywords:
         print(link_state)
         print(link_property)
 
+    @keyword("Get ${trait} of link ${link_name}")
+    def get_property_of_link(self, trait, link_name):
+        link_state = self.gazebo.get_link_state(link_name)
+        link_property = self.gazebo.get_link_properties(link_name)
+        link_info = {**link_state, **link_property}  # dictionary join
+        output = trait_split_check(trait, link_info)
+        print('\'' + trait + '\':', output)
+
     @keyword("Get world-properties")
     def get_world_properties(self):
         world_property = self.gazebo.get_world_properties()
         print(world_property)
+
+    @keyword("Get ${trait} of world")
+    def get_property_of_model(self, trait):
+        world_property = self.gazebo.get_world_properties()
+        output = trait_split_check(trait, world_property)
+        print('\'' + trait + '\':', output)
 
     @keyword("Get physics-properties")
     def test_physics_properties(self):
         physics_property = self.gazebo.get_physics_properties()
         print(physics_property)
 
+    @keyword("Get ${trait} of physics")
+    def get_property_of_model(self, trait):
+        physics_property = self.gazebo.get_physics_properties()
+        output = trait_split_check(trait, physics_property)
+        print('\'' + trait + '\':', output)
+
     @keyword("Get joint-properties of ${joint_name}")
     def test_joint_properties(self, joint_name):
         joint_property = self.gazebo.get_light_properties(joint_name)
         print(joint_property)
 
+    @keyword("Get ${trait} of joint ${joint_name}")
+    def get_property_of_link(self, trait, joint_name):
+        joint_property = self.gazebo.get_joint_properties(joint_name)
+        output = trait_split_check(trait, joint_property)
+        print('\'' + trait + '\':', output)
+
     @keyword("Get light-properties of ${light_name}")
     def test_light_properties(self, light_name):
         light_property = self.gazebo.get_joint_properties(light_name)
         print(light_property)
+
+    @keyword("Get ${trait} of light ${light_name}")
+    def get_property_of_link(self, trait, light_name):
+        light_property = self.gazebo.get_light_properties(light_name)
+        output = trait_split_check(trait, light_property)
+        print('\'' + trait + '\':', output)
