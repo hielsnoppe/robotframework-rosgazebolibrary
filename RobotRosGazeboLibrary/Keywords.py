@@ -192,40 +192,40 @@ class Keywords:
         print(world_property)
 
     @keyword("Get ${trait} of world")
-    def get_property_of_model(self, trait):
+    def get_property_of_world(self, trait):
         world_property = self.gazebo.get_world_properties()
         output = trait_split_check(trait, world_property)
         print('\'' + trait + '\':', output)
 
     @keyword("Get physics-properties")
-    def test_physics_properties(self):
+    def get_physics_properties(self):
         physics_property = self.gazebo.get_physics_properties()
         print(physics_property)
 
     @keyword("Get ${trait} of physics")
-    def get_property_of_model(self, trait):
+    def get_property_of_physics(self, trait):
         physics_property = self.gazebo.get_physics_properties()
         output = trait_split_check(trait, physics_property)
         print('\'' + trait + '\':', output)
 
     @keyword("Get joint-properties of ${joint_name}")
-    def test_joint_properties(self, joint_name):
+    def get_joint_properties(self, joint_name):
         joint_property = self.gazebo.get_light_properties(joint_name)
         print(joint_property)
 
     @keyword("Get ${trait} of joint ${joint_name}")
-    def get_property_of_link(self, trait, joint_name):
+    def get_property_of_joint(self, trait, joint_name):
         joint_property = self.gazebo.get_joint_properties(joint_name)
         output = trait_split_check(trait, joint_property)
         print('\'' + trait + '\':', output)
 
     @keyword("Get light-properties of ${light_name}")
-    def test_light_properties(self, light_name):
+    def get_light_properties(self, light_name):
         light_property = self.gazebo.get_joint_properties(light_name)
         print(light_property)
 
     @keyword("Get ${trait} of light ${light_name}")
-    def get_property_of_link(self, trait, light_name):
+    def get_property_of_light(self, trait, light_name):
         light_property = self.gazebo.get_light_properties(light_name)
         output = trait_split_check(trait, light_property)
         print('\'' + trait + '\':', output)
