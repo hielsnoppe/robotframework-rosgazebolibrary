@@ -139,7 +139,7 @@ class Keywords:
     @keyword("Get model-state of ${model_name}")
     def get_model_state(self, model_name):
         model_state = self.gazebo.get_model_state(model_name)
-        print(model_state)
+        print(['model', model_name, [model_state]])
 
     @keyword("Get model-properties of ${model_name}")
     def get_model_properties(self, model_name):
@@ -158,8 +158,10 @@ class Keywords:
         model_state = self.gazebo.get_model_state(model_name)
         model_property = self.gazebo.get_model_properties(model_name)
         model_info = {**model_state, **model_property}  # dictionary join
+        split_trait = trait.split(':')
         output = trait_split_check(trait, model_info)
-        print('\'' + trait + '\':', output)
+        split_trait.append(output)
+        print(['model', model_name, split_trait])
 
     @keyword("Get link-state of ${link_name}")
     def get_link_state(self, link_name):
@@ -184,7 +186,7 @@ class Keywords:
         link_property = self.gazebo.get_link_properties(link_name)
         link_info = {**link_state, **link_property}  # dictionary join
         output = trait_split_check(trait, link_info)
-        print('\'' + trait + '\':', output)
+        print(output)
 
     @keyword("Get world-properties")
     def get_world_properties(self):
@@ -229,3 +231,8 @@ class Keywords:
         light_property = self.gazebo.get_light_properties(light_name)
         output = trait_split_check(trait, light_property)
         print('\'' + trait + '\':', output)
+
+    @keyword("Read RTF")
+    def read_rtf(self):
+        with open("RTF.log", "wb") as out:
+            subprocess.Popen(['gz', 'stats', '-p'], stdout=out)

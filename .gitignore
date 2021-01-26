@@ -118,6 +118,7 @@ dmypy.json
 output.xml
 report.html
 log.html
+output_test.xml
 
 # IDE
 RobotRosGazeboLibrary/.idea/
