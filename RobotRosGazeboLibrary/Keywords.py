@@ -9,13 +9,32 @@ from robot.api.deco import keyword, not_keyword
 from .gazebo import GazeboClient
 
 
-def trait_split_check(trait: str, dictionary: dict) -> str:
+def form_dictionary(about: str, name: str, data: list) -> dict:
+    info_dictionary = {
+        "about": about,
+        "name": name,
+        "data": data
+    }
+    return info_dictionary
+
+
+def form_dictionary_two_args(about: str, data: list) -> dict:
+    info_dictionary = {
+        "about": about,
+        "data": data
+    }
+    return info_dictionary
+
+
+def trait_split_check(trait: str, dictionary: dict) -> list:
     trait_path = trait.split(':')
     try:
         output = reduce(getitem_func, trait_path, dictionary)
     except KeyError:
         output = 'not found'
-    return output
+    trait_path.append(output)
+    data = trait_path
+    return data
 
 
 class Keywords:
@@ -139,98 +158,96 @@ class Keywords:
     @keyword("Get model-state of ${model_name}")
     def get_model_state(self, model_name):
         model_state = self.gazebo.get_model_state(model_name)
-        print(['model', model_name, [model_state]])
+        print(form_dictionary('model', model_name, [model_state]))
 
     @keyword("Get model-properties of ${model_name}")
     def get_model_properties(self, model_name):
         model_property = self.gazebo.get_model_properties(model_name)
-        print(model_property)
+        print(form_dictionary('model', model_name, [model_property]))
 
     @keyword("Get model-info of ${model_name}")
     def get_model_info(self, model_name):
         model_state = self.gazebo.get_model_state(model_name)
         model_property = self.gazebo.get_model_properties(model_name)
-        print(model_state)
-        print(model_property)
+        model_info = {**model_state, **model_property}  # dictionary join
+        print(form_dictionary('model', model_name, [model_info]))
 
     @keyword("Get ${trait} of model ${model_name}")
     def get_property_of_model(self, trait, model_name):
         model_state = self.gazebo.get_model_state(model_name)
         model_property = self.gazebo.get_model_properties(model_name)
         model_info = {**model_state, **model_property}  # dictionary join
-        split_trait = trait.split(':')
-        output = trait_split_check(trait, model_info)
-        split_trait.append(output)
-        print(['model', model_name, split_trait])
+        data = trait_split_check(trait, model_info)
+        print(form_dictionary('model', model_name, data))
 
     @keyword("Get link-state of ${link_name}")
     def get_link_state(self, link_name):
         link_state = self.gazebo.get_link_state(link_name)
-        print(link_state)
+        print(form_dictionary('link', link_name, [link_state]))
 
     @keyword("Get link-properties of ${link_name}")
     def get_link_properties(self, link_name):
         link_property = self.gazebo.get_link_properties(link_name)
-        print(link_property)
+        print(form_dictionary('link', link_name, [link_property]))
 
     @keyword("Get link-info of ${link_name}")
     def get_link_info(self, link_name):
         link_state = self.gazebo.get_link_state(link_name)
         link_property = self.gazebo.get_link_properties(link_name)
-        print(link_state)
-        print(link_property)
+        link_info = {**link_state, **link_property}  # dictionary join
+        print(form_dictionary('link', link_name, [link_info]))
 
     @keyword("Get ${trait} of link ${link_name}")
     def get_property_of_link(self, trait, link_name):
         link_state = self.gazebo.get_link_state(link_name)
         link_property = self.gazebo.get_link_properties(link_name)
         link_info = {**link_state, **link_property}  # dictionary join
-        output = trait_split_check(trait, link_info)
-        print(output)
+        data = trait_split_check(trait, link_info)
+        print(form_dictionary('link', link_name, data))
 
     @keyword("Get world-properties")
     def get_world_properties(self):
         world_property = self.gazebo.get_world_properties()
-        print(world_property)
+        print(form_dictionary_two_args('world', [world_property]))
 
     @keyword("Get ${trait} of world")
     def get_property_of_world(self, trait):
         world_property = self.gazebo.get_world_properties()
-        output = trait_split_check(trait, world_property)
-        print('\'' + trait + '\':', output)
+        data = trait_split_check(trait, world_property)
+        print(form_dictionary_two_args('world', data))
 
     @keyword("Get physics-properties")
     def get_physics_properties(self):
         physics_property = self.gazebo.get_physics_properties()
-        print(physics_property)
+        print(form_dictionary_two_args('physics', [physics_property]))
 
     @keyword("Get ${trait} of physics")
     def get_property_of_physics(self, trait):
         physics_property = self.gazebo.get_physics_properties()
-        output = trait_split_check(trait, physics_property)
-        print('\'' + trait + '\':', output)
+        data = trait_split_check(trait, physics_property)
+        print(form_dictionary_two_args('physics', data))
 
     @keyword("Get joint-properties of ${joint_name}")
     def get_joint_properties(self, joint_name):
         joint_property = self.gazebo.get_light_properties(joint_name)
-        print(joint_property)
+        print(form_dictionary('joint', joint_name, [joint_property]))
 
     @keyword("Get ${trait} of joint ${joint_name}")
     def get_property_of_joint(self, trait, joint_name):
         joint_property = self.gazebo.get_joint_properties(joint_name)
-        output = trait_split_check(trait, joint_property)
-        print('\'' + trait + '\':', output)
+        data = trait_split_check(trait, joint_property)
+        print(form_dictionary('joint', joint_name, data))
 
     @keyword("Get light-properties of ${light_name}")
     def get_light_properties(self, light_name):
         light_property = self.gazebo.get_joint_properties(light_name)
-        print(light_property)
+        print(form_dictionary('light', light_name, [light_property]))
 
     @keyword("Get ${trait} of light ${light_name}")
     def get_property_of_light(self, trait, light_name):
         light_property = self.gazebo.get_light_properties(light_name)
-        output = trait_split_check(trait, light_property)
-        print('\'' + trait + '\':', output)
+        data = trait_split_check(trait, light_property)
+        print(form_dictionary('light', light_name, data))
 
     @keyword("Read RTF")
     def read_rtf(self):
