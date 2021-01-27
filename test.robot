@@ -37,6 +37,7 @@ Test Handover
 	Get link-state of robot1::base_link
 	Get link-properties of robot1::base_link
 	Get physics-properties
+	Get world-properties
 
 	Publish "go" on /user_input
 	Sleep		2
