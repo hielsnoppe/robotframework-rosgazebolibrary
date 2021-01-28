@@ -13,7 +13,7 @@ def form_dictionary(about: str, name: str, data: list) -> dict:
     info_dictionary = {
         "about": about,
         "name": name,
-        "data": data
+        "data": data,
     }
     return info_dictionary
 
@@ -21,7 +21,7 @@ def form_dictionary(about: str, name: str, data: list) -> dict:
 def form_dictionary_two_args(about: str, data: list) -> dict:
     info_dictionary = {
         "about": about,
-        "data": data
+        "data": data,
     }
     return info_dictionary
 
