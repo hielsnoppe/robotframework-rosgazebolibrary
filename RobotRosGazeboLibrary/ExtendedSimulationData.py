@@ -2,11 +2,11 @@ from .SimulationData import SimulationData
 import xml.dom.minidom
 import ast
 import csv
-from .globals import KW_LIB
+from .globals import KW_LIB, OUTPUT_FILE_PATH, RTF_FILE_PATH
 
 
 def xml_preprocessor(about: str) -> list:
-    all_data = xml.dom.minidom.parse("../output.xml")
+    all_data = xml.dom.minidom.parse(OUTPUT_FILE_PATH)
     data_kws = all_data.getElementsByTagName("kw")
     data_kws = [kw for kw in data_kws if kw.getAttribute('library') == KW_LIB]
     list_msgs = []
@@ -53,7 +53,7 @@ class ExtendedSimulationData(SimulationData):
                     output_data[category].append(tree_dict)
 
     def get_rtf(self):
-        with open("/home/lerner/Semesterprojekt/robottests/robot-ros-gazebo-library/RTF.log") as csv_file:
+        with open(RTF_FILE_PATH, 'r') as csv_file:
             reader = csv.reader(csv_file, delimiter=',', quotechar='|')
             reader.__next__()
             for row in reader:
@@ -64,3 +64,16 @@ class ExtendedSimulationData(SimulationData):
                     'paused': True if row[3].lstrip() == 'T' else False
                 }
                 self.rtf.append(result_dict)
+
+    def get_result(self):
+        all_data = xml.dom.minidom.parse(OUTPUT_FILE_PATH)
+        data_totals = all_data.getElementsByTagName("total")
+        first_stat = data_totals[0].childNodes[1]
+        second_stat = data_totals[0].childNodes[3]
+        self.result = {first_stat.firstChild.nodeValue: {
+                                                    'pass': first_stat.getAttribute('pass'),
+                                                    'fail': first_stat.getAttribute('fail')},
+                       second_stat.firstChild.nodeValue: {
+                                                    'pass': second_stat.getAttribute('pass'),
+                                                    'fail': second_stat.getAttribute('fail')}
+                       }

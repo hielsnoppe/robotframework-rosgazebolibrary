@@ -7,6 +7,7 @@ import roslibpy
 from robot.api.deco import keyword, not_keyword
 
 from .gazebo import GazeboClient
+from .globals import RTF_FILE_PATH
 
 
 def form_dictionary(about: str, name: str, data: list) -> dict:
@@ -148,13 +149,6 @@ class Keywords:
 
         self.client.terminate()
 
-    # added
-
-    @keyword("Test")
-    def test_get_funcs(self):
-        actual = self.gazebo.get_physics_properties()
-        print(actual)
-
     @keyword("Get model-state of ${model_name}")
     def get_model_state(self, model_name):
         model_state = self.gazebo.get_model_state(model_name)
@@ -251,5 +245,5 @@ class Keywords:
 
     @keyword("Read RTF")
     def read_rtf(self):
-        with open("RTF.log", "wb") as out:
+        with open(RTF_FILE_PATH, "wb") as out:
             subprocess.Popen(['gz', 'stats', '-p'], stdout=out)
