@@ -114,12 +114,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# output files
-output.xml
-report.html
-log.html
-output_test.xml
-pickle_obj.p
-
 # IDE
 RobotRosGazeboLibrary/.idea/

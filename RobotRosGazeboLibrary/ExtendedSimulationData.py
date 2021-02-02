@@ -1,12 +1,18 @@
-from .SimulationData import SimulationData
-import xml.dom.minidom
 import ast
 import csv
+import logging
+import xml.dom.minidom
+
+from .SimulationData import SimulationData
 from .globals import KW_LIB, OUTPUT_FILE_PATH, RTF_FILE_PATH
 
 
 def xml_preprocessor(about: str) -> list:
-    all_data = xml.dom.minidom.parse(OUTPUT_FILE_PATH)
+    try:
+        all_data = xml.dom.minidom.parse(OUTPUT_FILE_PATH)
+    except FileNotFoundError:
+        logging.error(f"{OUTPUT_FILE_PATH} not found")
+        return []
     data_kws = all_data.getElementsByTagName("kw")
     data_kws = [kw for kw in data_kws if kw.getAttribute('library') == KW_LIB]
     list_msgs = []
@@ -53,20 +59,28 @@ class ExtendedSimulationData(SimulationData):
                     output_data[category].append(tree_dict)
 
     def get_rtf(self):
-        with open(RTF_FILE_PATH, 'r') as csv_file:
-            reader = csv.reader(csv_file, delimiter=',', quotechar='|')
-            reader.__next__()
-            for row in reader:
-                result_dict = {
-                    'rtf': float(row[0]),
-                    'sim': float(row[1]),
-                    'real': float(row[2]),
-                    'paused': True if row[3].lstrip() == 'T' else False
-                }
-                self.rtf.append(result_dict)
+        try:
+            with open(RTF_FILE_PATH, 'r') as csv_file:
+                reader = csv.reader(csv_file, delimiter=',', quotechar='|')
+                reader.__next__()
+                for row in reader:
+                    result_dict = {
+                        'rtf': float(row[0]),
+                        'sim': float(row[1]),
+                        'real': float(row[2]),
+                        'paused': True if row[3].lstrip() == 'T' else False
+                    }
+                    self.rtf.append(result_dict)
+        except FileNotFoundError:
+            logging.error(f"{RTF_FILE_PATH} not found")
+            return
 
     def get_result(self):
-        all_data = xml.dom.minidom.parse(OUTPUT_FILE_PATH)
+        try:
+            all_data = xml.dom.minidom.parse(OUTPUT_FILE_PATH)
+        except FileNotFoundError:
+            logging.error(f"{OUTPUT_FILE_PATH} not found")
+            return
         data_totals = all_data.getElementsByTagName("total")
         first_stat = data_totals[0].childNodes[1]
         second_stat = data_totals[0].childNodes[3]

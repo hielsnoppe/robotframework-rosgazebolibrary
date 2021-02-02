@@ -2,12 +2,8 @@ from typing import Optional, List, Dict
 
 
 class SimulationData(object):
-    """
-    data sfja sśdofbjs jokkjaopkkm
-    vdvoir
-    """
     def __init__(self):
-        self.result: Optional[Dict[str:Dict[str: int, str: int], str:Dict[str: int, str: int]]] = {}
+        self.result: Optional[Dict[str:Dict[str: bool, str: bool], str:Dict[str: bool, str: bool]]] = {}
         self.rtf: Optional[List[Dict[str: float, str: float, str: float, str: bool]]] = []
         self.model_data: Optional[Dict[str:List[Dict]]] = {}
         self.link_data: Optional[Dict[str:List[Dict]]] = {}
