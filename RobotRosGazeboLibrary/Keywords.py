@@ -7,7 +7,7 @@ import roslibpy
 from robot.api.deco import keyword, not_keyword
 
 from .gazebo import GazeboClient
-from .globals import RTF_FILE_PATH
+from .globals import RTF_FILE_PATH, STONE_PATH
 
 
 def form_dictionary(about: str, name: str, data: list) -> dict:
@@ -121,7 +121,7 @@ class Keywords:
 
         while wait:
             result = self.gazebo.get_world_properties()
-            if abs(result['sim_time'] - curr_time >= float(dur_in_s)):
+            if abs(result['sim_time'] - curr_time) >= float(dur_in_s):
                 wait = False
 
     @keyword(r"Connect on port ${port:\d+}")
@@ -247,3 +247,8 @@ class Keywords:
     def read_rtf(self):
         with open(RTF_FILE_PATH, "wb") as out:
             subprocess.Popen(['gz', 'stats', '-p'], stdout=out)
+
+    @keyword("Spawn block ${model_name} at position ${x} ${y} ${z}")
+    def spawn_block(self, model_name, x, y, z):
+        position = [x, y, z]
+        self.gazebo.spawn_sdf_model(position, model_name, STONE_PATH)

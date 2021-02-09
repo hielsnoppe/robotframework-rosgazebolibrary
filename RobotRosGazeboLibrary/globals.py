@@ -1,4 +1,2 @@
-KW_LIB = "RobotRosGazeboLibrary.Keywords"
-OUTPUT_FILE_PATH = "output.xml"
 RTF_FILE_PATH = "RTF.log"
-TEST_DATA_FILE_PATH = "test_data.p"
+STONE_PATH = "/catkin_ws/src/ros-packages/xivt_fokus_cube/models/stone_10_1_2_5cm"

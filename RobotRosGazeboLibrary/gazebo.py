@@ -1,3 +1,5 @@
+import subprocess
+
 from roslibpy import Service, ServiceRequest
 
 
@@ -86,3 +88,11 @@ class GazeboClient:
         request = ServiceRequest()
 
         return service.call(request)
+
+    @staticmethod
+    def spawn_sdf_model(position: list, object_name: str, sdf_path: str):
+        command = f"rosrun gazebo_ros spawn_model -file {sdf_path} -sdf -model {object_name}" \
+                  f" -x {position[0]} -y {position[1]} -z {position[2]}"
+
+        subprocess.run(command.split(), stdout=subprocess.DEVNULL)
+
