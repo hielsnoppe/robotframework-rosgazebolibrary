@@ -94,7 +94,6 @@ class Keywords:
 
         actual = self.gazebo.get_model_state(model_name)
         expected = {"x": x, "y": y, "z": z}
-
         self._verify_position(actual, expected, self.TOLERANCE)
 
     @not_keyword
@@ -223,7 +222,7 @@ class Keywords:
 
     @keyword("Get joint-properties of ${joint_name}")
     def get_joint_properties(self, joint_name):
-        joint_property = self.gazebo.get_light_properties(joint_name)
+        joint_property = self.gazebo.get_joint_properties(joint_name)
         print(form_dictionary('joint', joint_name, [joint_property]))
 
     @keyword("Get ${trait} of joint ${joint_name}")
@@ -234,7 +233,7 @@ class Keywords:
 
     @keyword("Get light-properties of ${light_name}")
     def get_light_properties(self, light_name):
-        light_property = self.gazebo.get_joint_properties(light_name)
+        light_property = self.gazebo.get_light_properties(light_name)
         print(form_dictionary('light', light_name, [light_property]))
 
     @keyword("Get ${trait} of light ${light_name}")
