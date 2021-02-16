@@ -7,7 +7,7 @@ import roslibpy
 from robot.api.deco import keyword, not_keyword
 
 from .gazebo import GazeboClient
-from .globals import RTF_FILE_PATH, STONE_PATH
+from .globals import RTF_FILE_PATH, STONE_PATH, WOOD_PATH
 
 
 def form_dictionary(about: str, name: str, data: list) -> dict:
@@ -252,3 +252,14 @@ class Keywords:
     def spawn_block(self, model_name, x, y, z):
         position = [x, y, z]
         self.gazebo.spawn_sdf_model(position, model_name, STONE_PATH)
+
+    @keyword("Spawn cube ${model_name} at position ${x} ${y} ${z}")
+    def spawn_block(self, model_name, x, y, z):
+        position = [x, y, z]
+        self.gazebo.spawn_sdf_model(position, model_name, WOOD_PATH)
+
+    @keyword("Track ${trait} of model ${model_name} every ${time_gap} seconds for ${duration} seconds")
+    def track_position(self, trait, model_name, time_gap, duration):
+        for i in range(duration/time_gap):
+            self.get_property_of_model(trait, model_name)
+            self.wait_for(time_gap)
