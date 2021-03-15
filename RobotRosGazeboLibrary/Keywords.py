@@ -117,6 +117,13 @@ class Keywords:
 
         result = self.gazebo.get_world_properties()
         curr_time = result['sim_time']
+        time_goal = curr_time + float(dur_in_s)
+
+        sleep_time = 0.9 * float(dur_in_s)
+        while sleep_time > 0.1:
+            time.sleep(sleep_time)
+            result = self.gazebo.get_world_properties()
+            sleep_time = 0.9 * (time_goal - result['sim_time'])
 
         while wait:
             result = self.gazebo.get_world_properties()
@@ -253,7 +260,7 @@ class Keywords:
         self.gazebo.spawn_sdf_model(position, model_name, STONE_PATH)
 
     @keyword("Spawn cube ${model_name} at position ${x} ${y} ${z}")
-    def spawn_block(self, model_name, x, y, z):
+    def spawn_cube(self, model_name, x, y, z):
         position = [x, y, z]
         self.gazebo.spawn_sdf_model(position, model_name, WOOD_PATH)
 
