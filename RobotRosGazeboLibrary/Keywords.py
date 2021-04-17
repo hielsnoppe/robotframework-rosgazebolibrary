@@ -117,6 +117,13 @@ class Keywords:
 
         result = self.gazebo.get_world_properties()
         curr_time = result['sim_time']
+        time_goal = curr_time + float(dur_in_s)
+
+        sleep_time = 0.9 * float(dur_in_s)
+        while sleep_time > 0.1:
+            time.sleep(sleep_time)
+            result = self.gazebo.get_world_properties()
+            sleep_time = 0.9 * (time_goal - result['sim_time'])
 
         while wait:
             result = self.gazebo.get_world_properties()
@@ -253,7 +260,7 @@ class Keywords:
         self.gazebo.spawn_sdf_model(position, model_name, STONE_PATH)
 
     @keyword("Spawn cube ${model_name} at position ${x} ${y} ${z}")
-    def spawn_block(self, model_name, x, y, z):
+    def spawn_cube(self, model_name, x, y, z):
         position = [x, y, z]
         self.gazebo.spawn_sdf_model(position, model_name, WOOD_PATH)
 
@@ -262,3 +269,22 @@ class Keywords:
         for i in range(duration/time_gap):
             self.get_property_of_model(trait, model_name)
             self.wait_for(time_gap)
+
+    # TODO Keyword to register the camera
+
+    @keyword("Register QR ${ID} for model ${model_name} with offset ${x} ${y} ${z} and rotation ${rx} ${ry} ${rz}")
+    def register_qr_codes(self, qr_id: int, model_name: str, x, y, z, rx, ry, rz):
+        self.gazebo.register_qr_codes(qr_id, model_name, x, y, z, rx, ry, rz)
+
+    @keyword("Get CV-position of model ${model_name}")
+    def get_cv_position(self, model_name):
+        position_list = self.gazebo.get_cv_position(self, model_name)
+        model_position = {'pose': {'position': {'x': position_list.VALUE[0], 'y': position_list.VALUE[1],
+                                                'z': position_list.VALUE[2]}}}
+        print(form_dictionary('model', model_name, [model_position]))
+
+    @keyword(r"CV-Verify model ${model_name} at ${x:-?\d*\.?\d+} ${y:-?\d*\.?\d+} ${z:-?\d*\.?\d+}")
+    def cv_verify_model_position(self, model_name, x: float, y: float, z: float):
+        actual = self.gazebo.get_cv_position(self, model_name)
+        expected = {"x": x, "y": y, "z": z}
+        self._verify_position(actual, expected, self.TOLERANCE)
