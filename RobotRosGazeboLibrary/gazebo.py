@@ -96,3 +96,21 @@ class GazeboClient:
 
         subprocess.run(command.split(), stdout=subprocess.DEVNULL)
 
+    def register_qr(self, qr_id: int, model_name: str, x, y, z, rx, ry, rz):
+        service = Service(self.client,
+                          '/subscriber/ObjReg',
+                          'subscriber/srv/ObjReg'
+                          )
+        request = ServiceRequest({'objname': model_name, 'qrcodeid': qr_id, 'xOffsetofqr': x, 'yOffsetofqr': y,
+                                  'zOffsetofqr': z, 'xRotationofqr': rx, 'yRotationofqr': ry, 'zRotationofqr': rz})
+
+        return service.call(request)
+
+    def get_cv_position(self, model_name):
+        service = Service(self.client,
+                          '/subscriber/QRAnalyzer',
+                          'subscriber/srv/QRAnalyzer'
+                          )
+        request = ServiceRequest({'objname': model_name})
+
+        return service.call(request)
