@@ -1,0 +1,9 @@
+Robot ROS Gazebo Library
+Copyright 2020-2021 Fraunhofer FOKUS
+
+The initial version of this software was developed at the Fraunhofer Institute
+for Open Communication Systems (FOKUS) [1]. Initial development was funded by
+the ITEA3 project eXcellence in Variant Testing (XIVT) [2].
+
+[1] https://www.fokus.fraunhofer.de
+[2] https://itea4.org/project/xivt.html
