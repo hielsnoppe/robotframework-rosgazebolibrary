@@ -30,7 +30,11 @@ class ROS(object):
 
     @keyword("rosrun ${package} ${executable}")
     def rosrun(self, package, executable):
-        """Run an executable from a specified ROS package using `rosrun`"""
+        """
+        Run an executable from a specified ROS package using `rosrun`
+
+        Uses robot.libraries.Process
+        """
 
         return self.process_lib.start_process('rosrun', [package, executable])
 
