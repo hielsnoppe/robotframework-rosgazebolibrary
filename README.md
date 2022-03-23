@@ -11,11 +11,11 @@ Initial development was funded by the ITEA3 project [eXcellence in Variant Testi
 
 ## Installation
 
-For detailed instructions, see [Installation instructions](https://github.com/robotframework/robotframework/blob/master/INSTALL.rst) for Robot Framework.
+You can install this library from the [Python Package Index](https://pypi.org/project/robotframework-rosgazebolibrary/) as follows:
 
-Download this repository and install the library using `pip install -e`.
+    pip install robotframework-rosgazebolibrary
 
-Installation will become easier as soon as this library is released to the [Python Package Index](https://pypi.org/).
+See also the [installation instructions](https://github.com/robotframework/robotframework/blob/master/INSTALL.rst) for Robot Framework.
 
 ## Documentation
 
@@ -25,15 +25,3 @@ In principle, the following command should create HTML documentation:
 
 Unfortunately, this does not work at the moment.
 Feel free to create a pull request if you know how to fix this.
-
-## Usage Examples
-
-See `examples` folder for example test cases.
-
-## Running Tests (outdated)
-
-Run these commands in separate terminals:
-
-    roslaunch your_package your_example.launch
-    roslaunch rosbridge_server rosbridge_websocket.launch
-    robot example.robot
