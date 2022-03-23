@@ -1,6 +1,6 @@
-# Robot ROS Gazebo Library
+# Robot Framework ROS Gazebo Library
 
-[![CodeFactor](https://www.codefactor.io/repository/github/hielsnoppe/robot-ros-gazebo-library/badge)](https://www.codefactor.io/repository/github/hielsnoppe/robot-ros-gazebo-library)
+[![CodeFactor](https://www.codefactor.io/repository/github/hielsnoppe/robotframework-rosgazebolibrary/badge)](https://www.codefactor.io/repository/github/hielsnoppe/robotframework-rosgazebolibrary)
 
 Keyword library for the [Robot Framework](https://robotframework.org/) for accessing [ROS](https://www.ros.org/) based systems and the [Gazebo simulator](http://gazebosim.org/).
 
