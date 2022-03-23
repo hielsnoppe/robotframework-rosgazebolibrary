@@ -21,7 +21,7 @@ See also the [installation instructions](https://github.com/robotframework/robot
 
 In principle, the following command should create HTML documentation:
 
-    python -m robot.libdoc RobotRosGazeboLibrary docs/index.html
+    python -m robot.libdoc src/RosGazeboLibrary docs/index.html
 
 Unfortunately, this does not work at the moment.
 Feel free to create a pull request if you know how to fix this.
