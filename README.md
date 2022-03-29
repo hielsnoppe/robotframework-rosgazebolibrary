@@ -1,5 +1,7 @@
 # Robot Framework ROS Gazebo Library
 
+[![PyPI](https://img.shields.io/pypi/v/robotframework-rosgazebolibrary)](https://pypi.org/project/robotframework-rosgazebolibrary/)
+![Apache 2.0 License](https://img.shields.io/github/license/hielsnoppe/robotframework-rosgazebolibrary)
 [![CodeFactor](https://www.codefactor.io/repository/github/hielsnoppe/robotframework-rosgazebolibrary/badge)](https://www.codefactor.io/repository/github/hielsnoppe/robotframework-rosgazebolibrary)
 
 Keyword library for the [Robot Framework](https://robotframework.org/) for accessing [ROS](https://www.ros.org/) based systems and the [Gazebo simulator](http://gazebosim.org/).
