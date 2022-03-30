@@ -1,7 +1,7 @@
 # Robot Framework ROS Gazebo Library
 
 [![PyPI](https://img.shields.io/pypi/v/robotframework-rosgazebolibrary)](https://pypi.org/project/robotframework-rosgazebolibrary/)
-![Apache 2.0 License](https://img.shields.io/github/license/hielsnoppe/robotframework-rosgazebolibrary)
+[![Apache 2.0 License](https://img.shields.io/github/license/hielsnoppe/robotframework-rosgazebolibrary)](https://apache.org/licenses/LICENSE-2.0)
 [![CodeFactor](https://www.codefactor.io/repository/github/hielsnoppe/robotframework-rosgazebolibrary/badge)](https://www.codefactor.io/repository/github/hielsnoppe/robotframework-rosgazebolibrary)
 
 Keyword library for the [Robot Framework](https://robotframework.org/) for accessing [ROS](https://www.ros.org/) based systems and the [Gazebo simulator](http://gazebosim.org/).
@@ -27,3 +27,7 @@ In principle, the following command should create HTML documentation:
 
 Unfortunately, this does not work at the moment.
 Feel free to create a pull request if you know how to fix this.
+
+## License
+
+The Robot Framework Ros Gazebo Library is open source software provided under the [Apache License 2.0](https://apache.org/licenses/LICENSE-2.0)
