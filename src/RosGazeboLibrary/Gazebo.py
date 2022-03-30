@@ -51,7 +51,7 @@ class Gazebo(object):
         http://gazebosim.org/tutorials/?tut=ros_comm#DeleteModel
         '''
 
-        return self.ros_lib.call_service(
+        return self.ros_lib.rosservice_call(
             'gazebo/delete_model', 'gazebo_msgs/DeleteModel',
             { 'model_name': model_name }
             )
@@ -73,14 +73,14 @@ class Gazebo(object):
 
     @keyword
     def get_model_properties(self, model_name: str):
-        return self.ros_lib.call_service(
+        return self.ros_lib.rosservice_call(
             'gazebo/get_model_properties', 'gazebo_msgs/GetModelProperties',
             { 'model_name': model_name }
             )
 
     @keyword
     def get_model_state(self, model_name: str):
-        return self.ros_lib.call_service(
+        return self.ros_lib.rosservice_call(
             'gazebo/get_model_state', 'gazebo_msgs/GetModelState',
             { 'model_name': model_name }
             )
@@ -111,19 +111,19 @@ class Gazebo(object):
 
     @keyword
     def reset_simulation(self):
-        return self.ros_lib.call_service('/gazebo/reset_simulation')
+        return self.ros_lib.rosservice_call('/gazebo/reset_simulation')
 
     @keyword
     def reset_world(self):
-        return self.ros_lib.call_service('/gazebo/reset_world')
+        return self.ros_lib.rosservice_call('/gazebo/reset_world')
 
     @keyword
     def pause_physics(self):
-        return self.ros_lib.call_service('/gazebo/pause_physics')
+        return self.ros_lib.rosservice_call('/gazebo/pause_physics')
 
     @keyword
     def unpause_physics(self):
-        return self.ros_lib.call_service('/gazebo/unpause_physics')
+        return self.ros_lib.rosservice_call('/gazebo/unpause_physics')
 
     # Undocumented services
     # Found via `rosservice list`
