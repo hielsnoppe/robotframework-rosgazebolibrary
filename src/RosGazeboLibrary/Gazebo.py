@@ -20,12 +20,21 @@ class Gazebo(object):
     # http://gazebosim.org/tutorials/?tut=ros_comm#Services:Createanddestroymodelsinsimulation
 
     @keyword
-    def spawn_urdf_model(self, urdf_path: str, position: tuple, name: str):
-        ''' TODO '''
-        pass
+    def spawn_urdf_model(self, urdf_path: str, position: tuple, model_name: str):
+        ''' TODO: Refactor to use service call '''
+
+        return self.ros_lib.rosrun('gazebo_ros', 'spawn_model', *[
+            '-file', urdf_path,
+            '-urdf',
+            '-model', model_name,
+            '-x', position[0],
+            '-y', position[1],
+            '-z', position[2],
+        ])
 
     @keyword
     def spawn_sdf_model(self, sdf_path: str, position: tuple, model_name: str):
+        ''' TODO: Refactor to use service call '''
 
         return self.ros_lib.rosrun('gazebo_ros', 'spawn_model', *[
             '-file', sdf_path,
@@ -62,9 +71,12 @@ class Gazebo(object):
     # State and property getters
     # http://gazebosim.org/tutorials/?tut=ros_comm#Services:Stateandpropertygetters
 
-    ''' TODO
+    @keyword
     def get_model_properties(self, model_name: str):
-    '''
+        return self.ros_lib.call_service(
+            'gazebo/get_model_properties', 'gazebo_msgs/GetModelProperties',
+            { 'model_name': model_name }
+            )
 
     @keyword
     def get_model_state(self, model_name: str):

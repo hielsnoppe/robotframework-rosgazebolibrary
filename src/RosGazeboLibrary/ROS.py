@@ -22,7 +22,7 @@ class ROS(object):
         self.process_lib = BuiltIn().get_library_instance('Process')
 
     @keyword("roslaunch")
-    def roslaunch(self, package, executable):
+    def roslaunch(self, package, executable, *args, **kwargs):
         """
         Launch a launch file from a specified ROS package using `roslaunch`
         
@@ -32,11 +32,10 @@ class ROS(object):
         """
 
         return self.process_lib.start_process('roslaunch',
-                package, executable,
-                stdout='stdout.txt', stderr='stderr.txt')
+                package, executable, *args, **kwargs)
 
     @keyword("rosrun")
-    def rosrun(self, package, executable, *args):
+    def rosrun(self, package, executable, *args, **kwargs):
         """
         Run an executable from a specified ROS package using `rosrun`
 
@@ -44,12 +43,7 @@ class ROS(object):
         """
 
         return self.process_lib.start_process('rosrun',
-                package, executable, *args,
-                shell=True)
-
-    @keyword("Call Service")
-    def call_service(self, name, message='std_srvs/Empty', data=None):
-        return Service(self.client, name, message).call(ServiceRequest(data))
+                package, executable, *args, **kwargs)
 
 
     '''
@@ -79,3 +73,45 @@ class ROS(object):
     @keyword
     def rosbridge_close(self):
         self.client.close()
+
+
+    @keyword
+    def get_time(self):
+
+        return self.client.get_time()
+
+    # rosparam
+
+    @keyword
+    def rosparam_set(self, name, value):
+        ''' set parameter '''
+        self.client.set_param(name, value)
+
+    @keyword
+    def rosparam_get(self, name):
+        ''' get parameter '''
+        return self.client.get_param(name)
+
+    @keyword
+    def rosparam_load(self, file):
+        ''' TODO load parameters from file '''
+
+    @keyword
+    def rosparam_dump(self, file):
+        ''' TODO dump parameters to file '''
+
+    @keyword
+    def rosparam_delete(self, name):
+        ''' delete parameter '''
+        return self.client.delete_param(name)
+
+    @keyword
+    def rosparam_list(self):
+        ''' TODO list parameter names '''
+
+    # rosservice
+
+    @keyword
+    def rosservice_call(self, name, service_type='std_srvs/Empty', values=None):
+        
+        return Service(self.client, name, service_type).call(ServiceRequest(values))
